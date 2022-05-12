@@ -1,7 +1,4 @@
-#include "Trapezoid.h"
-#include <iostream>
-using std::cout;
-using std::endl;
+#include "Point.h"
 
 //#############################################################################
 //					УќбТЇктно-ор≥Їнтоване програмуванн€Ф					   
@@ -19,21 +16,25 @@ using std::endl;
 // project : Trapezoid, developed by Ruslan Zymovets (SE-1)
 //#############################################################################
 
+	int Point::_freeID = 0;
 
-int main(void)
-{
-	Trapezoid t(Point(1, 2), Point(0, 0), Point(4, 0), Point(3, 2));
-	Trapezoid t2(Point(0, 0), Point(1, 2), Point(3, 2), Point(4, 0));
+	Point::Point(const double x, const double y) 
+		:	_pointID(++_freeID), 
+			_x(x), 
+			_y(y)
+	{
+		return;
+	}
 
-	cout << t << endl;
-	
-	cout << std::boolalpha << (t != t2) << endl;
-	cout << t.area() << endl;
-	cout << t.perimeter() << endl;
-	
-	t2.set_vertexB(Point(0, 2));
-	cout << t2.area() << endl;
-	cout << t2.perimeter() << endl;
+	Point::Point(const Point& p) 
+		:	_pointID(++_freeID), 
+			_x(p._x), 
+			_y(p._y)
+	{
+		return;
+	}
 
-	return 0;
-}
+	Point::~Point()
+	{
+		return;
+	}
