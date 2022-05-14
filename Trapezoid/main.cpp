@@ -22,18 +22,20 @@ using std::endl;
 
 int main(void)
 {
-	Trapezoid t(Point(1, 2), Point(0, 0), Point(4, 0), Point(3, 2));
-	Trapezoid t2(Point(0, 0), Point(1, 2), Point(3, 2), Point(4, 0));
+	{
+
+	}
+	Trapezoid t(Point(0, 0), Point(1, 2), Point(3, 2), Point(4, 0));
 
 	cout << t << endl;
 	
 	cout << std::boolalpha << (t != t2) << endl;
-	cout << t.area() << endl;
-	cout << t.perimeter() << endl;
+	cout << "area  = " << t.area() << endl;
+	cout << "perim = " << t.perimeter() << endl;
 	
 	t2.set_vertexB(Point(0, 2));
-	cout << t2.area() << endl;
-	cout << t2.perimeter() << endl;
+	cout << "area  = " << t2.area() << endl;
+	cout << "perim = " << t2.perimeter() << endl;
 
 	return 0;
 }

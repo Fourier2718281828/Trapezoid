@@ -1,4 +1,4 @@
-#include "Segment.h"
+//#include "Segment.h"
 #include "Trapezoid.h"
 
 //#############################################################################
@@ -27,6 +27,10 @@
     {
 		if (!check_for_correctness())
 			throw BadTrapezoid("The set of points does not form a trapezoid.");
+
+#ifndef NDEBUG
+		cout << "Trapezoid (const Point&...) : id" << _id << endl;
+#endif // !NDEBUG
 		return;
     }
 	Trapezoid::Trapezoid(const Trapezoid& t)
@@ -35,11 +39,17 @@
 		_ab(nullptr), _bc(nullptr),
 		_cd(nullptr), _ad(nullptr)
 	{
+#ifndef NDEBUG
+		cout << "Trapezoid (const Trapezoid&) : id" << _id << endl;
+#endif // !NDEBUG
 		return;
 	}
 
 	Trapezoid::~Trapezoid()
 	{
+#ifndef NDEBUG
+		cout << "~Trapezoid() : id" << _id << endl;
+#endif // !NDEBUG
 		delete _ab; _ab = nullptr;
 		delete _bc; _bc = nullptr;
 		delete _cd; _cd = nullptr;
@@ -105,4 +115,9 @@
 	double Trapezoid::ad_length()	const
 	{
 		return ad().length();
+	}
+
+	double Trapezoid::height() const
+	{
+		return ad().distance(vertexB());
 	}

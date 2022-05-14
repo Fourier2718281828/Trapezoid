@@ -46,7 +46,6 @@ using std::endl;
 		inline const Point& vertexD()				const;
 		inline double area()						const;
 		inline double perimeter()					const;
-		inline double height()						const;
 		const Segment& ab()							const;
 		const Segment& bc()							const;
 		const Segment& cd()							const;
@@ -55,6 +54,7 @@ using std::endl;
 		double bc_length()							const;
 		double cd_length()							const;
 		double ad_length()							const;
+		double height()								const;
 	private:
 		inline bool check_for_correctness();
 	};
@@ -70,6 +70,8 @@ using std::endl;
 		~BadTrapezoid() = default;
 		inline void print_diagnosis(ostream& o) { o << _message << endl; }
 	};
+
+#include "Segment.h"
 
 	inline ostream& operator<<(ostream& o, const Trapezoid& t)
 	{
@@ -125,6 +127,8 @@ using std::endl;
 		delete _bc; _bc = nullptr;
 		delete _cd; _cd = nullptr;
 		delete _ad; _ad = nullptr;
+
+		return *this;
 	}
 
 	inline void Trapezoid::set_vertexA(const Point& p)&
@@ -132,6 +136,7 @@ using std::endl;
 		_a = p;
 		if (!check_for_correctness()) 
 			throw BadTrapezoid("Incorrect vertex modification.");
+		return;
 	}
 
 	inline void Trapezoid::set_vertexB(const Point& p)&
@@ -139,6 +144,7 @@ using std::endl;
 		_b = p;
 		if (!check_for_correctness())
 			throw BadTrapezoid("Incorrect vertex modification.");
+		return;
 	}
 
 	inline void Trapezoid::set_vertexC(const Point& p)&
@@ -146,6 +152,7 @@ using std::endl;
 		_c = p;
 		if (!check_for_correctness())
 			throw BadTrapezoid("Incorrect vertex modification.");
+		return;
 	}
 
 	inline void Trapezoid::set_vertexD(const Point& p)&
@@ -153,6 +160,7 @@ using std::endl;
 		_d = p;
 		if (!check_for_correctness())
 			throw BadTrapezoid("Incorrect vertex modification.");
+		return;
 	}
 
 	inline const Point& Trapezoid::vertexA() const
@@ -185,12 +193,13 @@ using std::endl;
 		return ab_length() + bc_length() + cd_length() + ad_length();
 	}
 
-	inline double Trapezoid::height()		const
-	{
-		double m = fabs(bc_length() - ad_length()) / 2;
-		double x = (ab_length() * ab_length() - cd_length() * cd_length()) / (4 * m) + m;
-		return sqrt(ab_length() * ab_length() - x * x);
-	}
+	//inline double Trapezoid::height()		const
+	//{
+	//	/*double m = fabs(bc_length() - ad_length()) / 2;
+	//	double x = (ab_length() * ab_length() - cd_length() * cd_length()) / (4 * m) + m;
+	//	return sqrt(ab_length() * ab_length() - x * x);*/
+	//	return ad().distance(vertexB());
+	//}
 
 	inline bool Trapezoid::check_for_correctness()
 	{

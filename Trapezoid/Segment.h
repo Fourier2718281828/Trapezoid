@@ -16,10 +16,10 @@ public:
 	Segment& operator=(const Segment& s) = delete;
 	inline const Point& start()				const;
 	inline const Point& end()				const;
-	inline const double& startX()			const;
-	inline const double& startY()			const;
-	inline const double& endX()				const;
-	inline const double& endY()				const;
+	inline const double startX()			const;
+	inline const double startY()			const;
+	inline const double endX()				const;
+	inline const double endY()				const;
 	inline double length()					const;
 	inline double distance(const Point& p)	const;
 	inline int getID()						const;
@@ -40,29 +40,29 @@ inline const Point& Trapezoid::Segment::end() const
 	return _b;
 }
 
-inline const double& Trapezoid::Segment::startX() const
+inline const double Trapezoid::Segment::startX() const
 {
 	return start().x();
 }
 
-inline const double& Trapezoid::Segment::startY() const
+inline const double Trapezoid::Segment::startY() const
 {
 	return start().y();
 }
 
-inline const double& Trapezoid::Segment::endX() const
+inline const double Trapezoid::Segment::endX() const
 {
 	return end().x();
 }
 
-inline const double& Trapezoid::Segment::endY() const
+inline const double Trapezoid::Segment::endY() const
 {
 	return end().y();
 }
 
 inline double Trapezoid::Segment::length() const
 {
-	return _a.distance(_b);
+	return start().distance(end());
 }
 
 inline double Trapezoid::Segment::distance(const Point& p) const
