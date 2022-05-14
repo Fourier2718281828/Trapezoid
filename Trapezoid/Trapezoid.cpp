@@ -25,7 +25,7 @@
 			_ab(nullptr), _bc(nullptr),
 			_cd(nullptr), _ad(nullptr)
     {
-		if (!check_for_correctness())
+		if (!check_for_correctness(vertexA(), vertexB(), vertexC(), vertexD()))
 			throw BadTrapezoid("The set of points does not form a trapezoid.");
 
 #ifndef NDEBUG

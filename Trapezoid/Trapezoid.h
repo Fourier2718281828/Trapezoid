@@ -46,6 +46,7 @@ using std::endl;
 		inline const Point& vertexD()				const;
 		inline double area()						const;
 		inline double perimeter()					const;
+		inline size_t id()							const;
 		const Segment& ab()							const;
 		const Segment& bc()							const;
 		const Segment& cd()							const;
@@ -56,7 +57,7 @@ using std::endl;
 		double ad_length()							const;
 		double height()								const;
 	private:
-		inline bool check_for_correctness();
+		inline bool check_for_correctness(const Point&, const Point&, const Point&, const Point&);
 	};
 
 	class Trapezoid::BadTrapezoid
@@ -68,7 +69,8 @@ using std::endl;
 			:	_message(message)
 		{}
 		~BadTrapezoid() = default;
-		inline void print_diagnosis(ostream& o) { o << _message << endl; }
+	public:
+		inline void print_diagnosis(ostream& o) const { o << _message << endl; }
 	};
 
 #include "Segment.h"
@@ -78,7 +80,8 @@ using std::endl;
 		return o << '['		<< t.vertexA() << ", "
 							<< t.vertexB() << ", "
 							<< t.vertexC() << ", "
-							<< t.vertexD() << ']';
+							<< t.vertexD() << ']'
+							<< ":id" << t.id();
 	}
 
 	inline bool operator<(const Trapezoid& a, const Trapezoid& b)
@@ -133,33 +136,33 @@ using std::endl;
 
 	inline void Trapezoid::set_vertexA(const Point& p)&
 	{
-		_a = p;
-		if (!check_for_correctness()) 
+		if (!check_for_correctness(p, vertexB(), vertexC(), vertexD())) 
 			throw BadTrapezoid("Incorrect vertex modification.");
+		_a = p;
 		return;
 	}
 
 	inline void Trapezoid::set_vertexB(const Point& p)&
 	{
-		_b = p;
-		if (!check_for_correctness())
+		if (!check_for_correctness(vertexA(), p, vertexC(), vertexD()))
 			throw BadTrapezoid("Incorrect vertex modification.");
+		_b = p;
 		return;
 	}
 
 	inline void Trapezoid::set_vertexC(const Point& p)&
 	{
-		_c = p;
-		if (!check_for_correctness())
+		if (!check_for_correctness(vertexA(), vertexB(), p, vertexD()))
 			throw BadTrapezoid("Incorrect vertex modification.");
+		_c = p;
 		return;
 	}
 
 	inline void Trapezoid::set_vertexD(const Point& p)&
 	{
-		_d = p;
-		if (!check_for_correctness())
+		if (!check_for_correctness(vertexA(), vertexB(), vertexC(), p))
 			throw BadTrapezoid("Incorrect vertex modification.");
+		_d = p;
 		return;
 	}
 
@@ -193,22 +196,19 @@ using std::endl;
 		return ab_length() + bc_length() + cd_length() + ad_length();
 	}
 
-	//inline double Trapezoid::height()		const
-	//{
-	//	/*double m = fabs(bc_length() - ad_length()) / 2;
-	//	double x = (ab_length() * ab_length() - cd_length() * cd_length()) / (4 * m) + m;
-	//	return sqrt(ab_length() * ab_length() - x * x);*/
-	//	return ad().distance(vertexB());
-	//}
-
-	inline bool Trapezoid::check_for_correctness()
+	inline size_t Trapezoid::id() const
 	{
-		bool ad = vertexA().x() < vertexD().x() && vertexA().y() == vertexD().y();
-		bool bc = vertexB().x() < vertexC().x() && vertexB().y() == vertexC().y();
-		bool h = vertexA().y() != vertexB().y();
-		bool right =	(vertexA().x() <= vertexB().x() && vertexC().x() <= vertexD().x()) 
+		return _id;
+	}
+
+	inline bool Trapezoid::check_for_correctness(const Point& a, const Point& b, const Point& c, const Point& d)
+	{
+		bool ad = a.x() < d.x() && a.y() == d.y();
+		bool bc = b.x() < c.x() && b.y() == c.y();
+		bool h = a.y() != b.y();
+		bool right =	(a.x() <= b.x() && c.x() <= d.x()) 
 						|| 
-						(vertexB().x() <= vertexA().x() && vertexD().x() <= vertexC().x());
+						(b.x() <= a.x() && d.x() <= c.x());
 		return ad && bc && h && right;
 	}
 #endif // !_TRAPEZOID_
